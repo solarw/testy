@@ -21,5 +21,6 @@ jobs:
       - name: Print hello
         run: |
             echo ${{ vars.HELLO }}
+            echo ${{ secrets.HELLO }}
             echo ${{ github.event.action == 'released' && 'production' || 'staging' }}
             echo ${{ github.event.action }}
