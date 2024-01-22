@@ -2,7 +2,7 @@ name: Release Flow
 
 on:
   release:
-    types: [published]
+    types: [prereleased, released]
 
 jobs:
   test_envs:
