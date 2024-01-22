@@ -12,7 +12,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         python-version: ["3.10"]
-    environment: ${{ github.ref == 'released' && 'production' || 'staging' }}
+    environment: ${{ github.event.action == 'released' && 'production' || 'staging' }}
     steps:
       - uses: actions/checkout@master
       - uses: actions/setup-python@v3
@@ -21,3 +21,5 @@ jobs:
       - name: Print hello
         run: |
             echo ${{ vars.HELLO }}
+            echo ${{ github.event.action == 'released' && 'production' || 'staging' }}
+            echo ${{ github.event.action }}
