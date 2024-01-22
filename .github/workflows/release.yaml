@@ -12,7 +12,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         python-version: ["3.10"]
-    environment: production
+    environment: ${{ github.ref == 'released' && 'production' || 'staging' }}
     steps:
       - uses: actions/checkout@master
       - uses: actions/setup-python@v3
