@@ -5,9 +5,9 @@ on:
     types: [prereleased, released]
 
 jobs:
-  test_envs:
-    name: test_envs
-    environment: ${{ fromJSON('["staging", "production"]')[github.event.action == 'released'] }}
+  to_production:
+    name: To production
+    environment: production 
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -20,10 +20,20 @@ jobs:
           python-version: ${{ matrix.python-versions }}
       - name: Print hello
         run: |
-            echo 1111 ${{ fromJSON('["staging", "production"]')[github.event.action == 'released'] }} 2222
-            echo ${{ vars.HELLO }}
-            echo ${{ secrets.HELLO }}
-            echo ${{ github.event.action == 'released' && 'production' || 'staging' }}
-            echo ${{ github.event.action }}
-            echo ${{ toJSON(github.event.release) }}
-            
+            echo PRODUCTION
+  to_staging:
+    name: To staging
+    environment: staging
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        python-version: ["3.10"]
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-versions }}
+      - name: Print hello
+        run: |
+            echo STAGING
