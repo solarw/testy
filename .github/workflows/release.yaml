@@ -7,6 +7,7 @@ on:
 jobs:
   test_envs:
     name: test_envs
+    environment: ${{ fromJSON('["staging", "production"]')[github.event.action == 'released'] }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -24,3 +25,5 @@ jobs:
             echo ${{ secrets.HELLO }}
             echo ${{ github.event.action == 'released' && 'production' || 'staging' }}
             echo ${{ github.event.action }}
+            echo ${{ toJSON(github.event.release) }}
+            
