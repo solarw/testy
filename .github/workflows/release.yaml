@@ -1,0 +1,26 @@
+name: Release Flow
+
+on:
+  release:
+    types: [prereleased, released]
+
+jobs:
+  to_production:
+    name: To production
+    environment: production
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        python-version: ["3.10"]
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-versions }}
+      - name: Print hello
+        run: | 
+            echo 1111 ${{ fromJSON('["staging", "production"]')[github.event.action == 'released'] }} 2222
+            echo ${{ toJSON(github.event.release) }}
+            echo ${{ github.event.release.name }}
+            echo ${{ endsWith('Hello world', 'ld')  }}
