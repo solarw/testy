@@ -21,6 +21,6 @@ jobs:
       - name: Print hello
         run: | 
             echo 1111 ${{ fromJSON('[["staging", "staging"], ["production", "custom_env"]]')[github.event.action == 'released'][endsWith(github.event.release.name, 'custom')] }} 2222
-            echo ${{ toJSON(github.event.release) }}
+            echo '${{ toJSON(github.event.release) }}'
             echo ${{ github.event.release.name }}
             echo ${{ endsWith(github.event.release.name, 'custom')  }}
