@@ -5,7 +5,8 @@ on:
     types: [prereleased, released]
 
 jobs:
-  to_production:
+  production_deployment:
+    if: endsWith(github.event.release.name, '(prod)')
     name: To production
     environment: production
     runs-on: ${{ matrix.os }}
@@ -18,9 +19,41 @@ jobs:
       - uses: actions/setup-python@v3
         with:
           python-version: ${{ matrix.python-versions }}
-      - name: Print hello
-        run: | 
-            echo 1111 ${{ fromJSON('[["staging", "staging"], ["production", "custom_env"]]')[github.event.action == 'released'][endsWith(github.event.release.name, 'custom')] }} 2222
-            echo '${{ toJSON(github.event.release) }}'
-            echo ${{ github.event.release.name }}
-            echo ${{ endsWith(github.event.release.name, 'custom')  }}
+      - name: Print env_name
+        run: |
+          echo $ENV_NAME
+  staging_deployment:
+    if: endsWith(github.event.release.name, '(staging)')
+    name: To staging
+    environment: staging
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        python-version: ["3.10"]
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-versions }}
+      - name: Print env_name
+        run: |
+          echo $ENV_NAME
+  shorts_deployment:
+    if: endsWith(github.event.release.name, '(shorts)')
+    name: To shorts
+    environment: shorts
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        python-version: ["3.10"]
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-versions }}
+      - name: Print env_name
+        run: |
+          echo $ENV_NAME
+
