@@ -21,7 +21,7 @@ jobs:
           python-version: ${{ matrix.python-versions }}
       - name: Print env_name
         run: |
-          echo $ENV_NAME
+          echo env: $ENV_NAME
   staging_deployment:
     if: endsWith(github.event.release.name, '(staging)')
     name: To staging
@@ -38,7 +38,7 @@ jobs:
           python-version: ${{ matrix.python-versions }}
       - name: Print env_name
         run: |
-          echo $ENV_NAME
+          echo env:  $ENV_NAME
   shorts_deployment:
     if: endsWith(github.event.release.name, '(shorts)')
     name: To shorts
@@ -55,5 +55,4 @@ jobs:
           python-version: ${{ matrix.python-versions }}
       - name: Print env_name
         run: |
-          echo $ENV_NAME
-
+          echo env:  $ENV_NAME
